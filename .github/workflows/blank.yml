@@ -1,0 +1,65 @@
+<!DOCTYPE html><html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>N-back Protocol</title>
+<style>
+  body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
+  #display { font-size: 2em; margin: 20px; }
+  button { font-size: 1.2em; padding: 10px 20px; margin: 10px; }
+</style>
+</head>
+<body>
+<h1>Protocole N-back Hypnagogie</h1>
+<div id="display">Appuyez sur "Démarrer"</div>
+<button id="start">Démarrer</button>
+<button id="match" disabled>Match</button>
+<script>
+let sequence = [];
+let n = 2;
+let index = 0;
+let running = false;function generateSequence(length) { let arr = []; for (let i = 0; i < length; i++) { let blue = Math.floor(Math.random() * n); let red = Math.floor(Math.random() * n); arr.push((blue + 2 * red) % n); } return arr; }
+
+document.getElementById('start').onclick = () => { sequence = generateSequence(20); index = 0; running = true; document.getElementById('match').disabled = false; nextItem(); };
+
+document.getElementById('match').onclick = () => { if (index >= n && sequence[index] === sequence[index - n]) { alert('Correct!'); } else { alert('Incorrect'); } };
+
+function nextItem() { if (!running) return; if (index >= sequence.length) { document.getElementById('display').innerText = 'Terminé'; running = false; return; } document.getElementById('display').innerText = sequence[index]; index++; setTimeout(nextItem, 2000); } </script>
+
+</body>
+</html># This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
