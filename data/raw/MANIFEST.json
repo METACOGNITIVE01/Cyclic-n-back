@@ -2,7 +2,7 @@
   "echecs": {
     "ICAR_SAPA": {
       "categorie": "politique_reseau",
-      "constate_le": "2026-08-31T09:50:45+00:00",
+      "constate_le": "2026-08-31T14:15:11+00:00",
       "motif": "la politique d'egress de cette session refuse l'hote. Detail : HTTPSConnectionPool(host='dataverse.harvard.edu', port=443): Max retries exceeded with url: /api/datasets/:persistentId/?persistentId=doi:10.7910/DVN/AD9RVY (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))",
       "obligatoire": true,
       "url": "https://dataverse.harvard.edu/api/datasets/:persistentId/?persistentId=doi:10.7910/DVN/AD9RVY"
@@ -22,7 +22,7 @@
       "url": "https://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=20016"
     }
   },
-  "ecrit_le": "2026-08-31T09:50:52+00:00",
+  "ecrit_le": "2026-08-31T14:15:11+00:00",
   "fichiers": {},
   "sources": {}
 }
