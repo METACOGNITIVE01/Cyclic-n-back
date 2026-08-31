@@ -1,0 +1,102 @@
+{
+  "_role": [
+    "Regle T4 : tout litteral numerique affecte a un identifiant a consonance",
+    "normative est une violation, SAUF s'il figure ci-dessous avec sa",
+    "justification. Cette liste est donc l'audit trail : elle doit rester courte",
+    "et chaque entree doit etre defendable."
+  ],
+  "repertoires_scannes": [
+    "scoring",
+    "report",
+    "app"
+  ],
+  "fichiers_scannes": [
+    "fetch_norms.py",
+    "verify_norms.py"
+  ],
+  "modules_exclus": {
+    "scoring/simulation.py": "Module de SIMULATION pure, importe uniquement par tests/ et par le rapport de demonstration explicitement estampille. Le pipeline de scoring ne l'importe jamais. Ses parametres ne touchent aucun score reel.",
+    "scoring/lint_provenance.py": "Le linter lui-meme : contient la liste des mots-cles normatifs, pas des valeurs."
+  },
+  "mots_normatifs": [
+    "mean",
+    "moyenne",
+    "sd",
+    "std",
+    "ecart",
+    "ecarttype",
+    "variance",
+    "percentile",
+    "centile",
+    "quantile",
+    "norme",
+    "norm",
+    "normatif",
+    "mu",
+    "sigma",
+    "a_j",
+    "b_j",
+    "c_j",
+    "discrimination",
+    "difficulte",
+    "saturation",
+    "lambda",
+    "correlation",
+    "corr",
+    "validite",
+    "valid",
+    "fidelite",
+    "reliability",
+    "retest",
+    "effectif",
+    "prevalence",
+    "qi",
+    "iq"
+  ],
+  "exceptions": [
+    {
+      "identifiant": "echelle_sd",
+      "justification": "Convention d'affichage de l'echelle QI (SD = 15), pas une norme mesuree. Definie dans config/crib1.toml, section [affichage]."
+    },
+    {
+      "identifiant": "echelle_moyenne",
+      "justification": "Convention d'affichage de l'echelle QI (moyenne = 100), pas une norme mesuree. Definie dans config/crib1.toml, section [affichage]."
+    },
+    {
+      "identifiant": "decalage_clone_sd",
+      "justification": "Parametre d'incertitude declare par le protocole (§5.6) : +/-0,25 SD de decalage de difficulte des clones, presente comme hypothese a justifier ou reviser, jamais comme une mesure. Valeur de reference dans config/crib1.toml, section [clone]."
+    },
+    {
+      "identifiant": "decalage_sd",
+      "justification": "Meme parametre que decalage_clone_sd, nom local dans scoring/uncertainty.py."
+    },
+    {
+      "identifiant": "sd_delta_z",
+      "justification": "Argument recevant l'incertitude de delta calculee sur donnees telechargees ; sa valeur par defaut est None, jamais un nombre."
+    },
+    {
+      "identifiant": "variance_pop",
+      "justification": "Nom reserve ; aucune valeur par defaut numerique n'est autorisee."
+    },
+    {
+      "identifiant": "arrondi_percentile",
+      "justification": "Pas d'arrondi d'AFFICHAGE des rangs percentiles, impose par §9 (« ne jamais afficher un percentile a la decimale pres »). C'est une regle de presentation, pas une valeur mesuree ; sa valeur de reference est dans config/crib1.toml, section [affichage], cle percentile_arrondi."
+    }
+  ],
+  "cles_json_normatives": [
+    "mean",
+    "moyenne",
+    "sd",
+    "ecart_type",
+    "percentile",
+    "centile",
+    "N",
+    "n_cellule",
+    "a",
+    "b",
+    "c",
+    "lambda_g",
+    "lambda_s",
+    "correlation"
+  ]
+}

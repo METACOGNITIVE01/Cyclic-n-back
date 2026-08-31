@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CRIB-1</title>
+<link rel="stylesheet" href="/static/css/crib.css" />
+</head>
+<body>
+<div id="racine">
+  <header id="entete">
+    <span id="titre">CRIB-1</span>
+    <span id="fil"></span>
+    <span id="progression"></span>
+  </header>
+
+  <main id="scene">
+    <section id="ecran-accueil" class="ecran actif">
+      <h1>CRIB-1</h1>
+      <p class="chapo">Batterie a contenu reduit. Passation locale.</p>
+      <div id="bandeau-norme" class="bandeau" hidden></div>
+      <form id="form-sujet">
+        <label>Identifiant <input name="id" value="S001" required /></label>
+        <label>Age <input name="age_annees" type="number" value="21" min="5" max="120" required /></label>
+        <label>Sexe
+          <select name="sexe"><option value="homme">homme</option><option value="femme">femme</option><option value="autre">autre</option></select>
+        </label>
+        <label>Niveau d'education
+          <select name="niveau_education" required>
+            <option value="">— a renseigner —</option>
+            <option value="1">1 — sans diplome</option>
+            <option value="2">2 — secondaire</option>
+            <option value="3">3 — premier cycle</option>
+            <option value="4">4 — deuxieme cycle</option>
+            <option value="5">5 — troisieme cycle</option>
+          </select>
+        </label>
+        <p class="aide">Le niveau d'education selectionne la ligne normative NCPT (§4.3).</p>
+        <div class="boutons">
+          <button type="submit" data-numero="1">Session 1</button>
+          <button type="submit" data-numero="2" class="secondaire">Session 2</button>
+        </div>
+      </form>
+      <div id="erreur-accueil" class="erreur" hidden></div>
+    </section>
+
+    <section id="ecran-calibration" class="ecran">
+      <h2>Calibration de l'affichage</h2>
+      <p class="chapo">Mesure du taux de rafraichissement. Ne changez pas de fenetre.</p>
+      <div id="jauge-calibration"><div id="jauge-remplissage"></div></div>
+      <p id="texte-calibration" class="mono"></p>
+    </section>
+
+    <section id="ecran-questionnaire" class="ecran">
+      <h2 id="titre-questionnaire"></h2>
+      <form id="form-questionnaire"></form>
+      <p class="aide">Ces variables sont enregistrees et rapportees. Elles ne corrigent aucun score.</p>
+    </section>
+
+    <section id="ecran-avertissement" class="ecran">
+      <h2>Avant de continuer</h2>
+      <ul id="liste-avertissement"></ul>
+      <div class="boutons">
+        <button id="btn-accepter-k2">Passer cette epreuve</button>
+        <button id="btn-refuser-k2" class="secondaire">Ne pas la passer</button>
+      </div>
+    </section>
+
+    <section id="ecran-tache" class="ecran">
+      <div id="phase-indicateur"></div>
+      <canvas id="toile" width="960" height="620"></canvas>
+      <div id="options"></div>
+      <div id="retour" class="retour" hidden></div>
+    </section>
+
+    <section id="ecran-pause" class="ecran">
+      <div id="compte-a-rebours" class="enorme">60</div>
+      <p class="chapo">Pause obligatoire.</p>
+    </section>
+
+    <section id="ecran-fin" class="ecran">
+      <h2>Session terminee</h2>
+      <p id="texte-fin" class="chapo"></p>
+      <pre id="resume-fin" class="mono"></pre>
+    </section>
+  </main>
+</div>
+
+<script src="/static/js/timing.js"></script>
+<script src="/static/js/draw.js"></script>
+<script src="/static/js/tasks.js"></script>
+<script src="/static/js/app.js"></script>
+</body>
+</html>

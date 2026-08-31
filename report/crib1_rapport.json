@@ -1,0 +1,258 @@
+{
+  "annexe_provenance": [],
+  "cadrage": [
+    {
+      "texte": "Retirer le vocabulaire, les references culturelles explicites et une partie de l'arithmetique reduit certaines sources de variance etrangeres au raisonnement. Cela n'en fait pas une mesure neutre. La familiarite avec les surfaces graphiques, la souris, les jeux de reglage visuel, l'habitude des epreuves a choix multiple restent des competences acquises, inegalement distribuees, et elles sont mesurees ici en meme temps que le raisonnement.",
+      "titre": "Contenu reduit n'est pas absence de biais."
+    },
+    {
+      "texte": "SAPA est un echantillon de volontaires en ligne, majoritairement etudiants : il n'est jamais utilise brut ici, mais le redressement corrige des marges, pas la selection sur des variables non observees. NCPT est une population d'utilisateurs d'un logiciel d'entrainement cognitif, donc auto-selectionnee elle aussi. UK Biobank a 40-69 ans, c'est-a-dire pas l'age du sujet.",
+      "titre": "Les echantillons de reference ne sont pas representatifs."
+    },
+    {
+      "texte": "Les items etiquetes ITEMS_CLONES sont regeneres d'apres la description publiee de la tache. Ils mesurent probablement quelque chose de tres proche, mais la norme a ete etablie sur les items d'origine, pas sur ceux-ci. L'ecart est traite comme une incertitude explicite (composante sigma_clone), pas comme une quantite negligeable.",
+      "titre": "Une partie des sub-tests est clonee, pas identique."
+    },
+    {
+      "texte": "Ce n'est pas le g d'une batterie large. Il est estime sur sept sub-tests qui sur-representent l'induction figurale et la visualisation spatiale et qui excluent entierement le contenu verbal. Un facteur general extrait d'un domaine etroit est plus etroit que le facteur qu'on extrait d'un domaine large, meme quand les deux se correlent fortement.",
+      "titre": "Le facteur general obtenu ici est un g a contenu reduit."
+    },
+    {
+      "texte": "Les points d'echelle sont exprimes sur une metrique de moyenne 100 et d'ecart-type 15 parce que c'est une convention de lecture repandue. Ce n'est pas une equivalence WAIS, et ce rapport n'en propose aucune.",
+      "titre": "Aucune equivalence avec une batterie clinique n'est annoncee."
+    },
+    {
+      "texte": "Tous les chiffres de ce rapport sont accompagnes d'un intervalle. Quand une composante d'incertitude n'a pas pu etre quantifiee faute de source, l'intervalle affiche est une BORNE INFERIEURE de l'incertitude reelle, et c'est signale a l'endroit ou il apparait.",
+      "titre": "Un score unique n'est jamais donne sans intervalle."
+    }
+  ],
+  "interdits": [
+    "produire un « QI » unique sans intervalle",
+    "annoncer une equivalence WAIS",
+    "corriger le score UK Biobank pour l'age",
+    "utiliser l'echantillon SAPA brut comme reference de population",
+    "traduire un item lexical et conserver sa norme",
+    "compter un echec de qualification comme une reponse fausse",
+    "fusionner le canal vitesse ou le canal contamination dans le score general",
+    "afficher un percentile a la decimale pres"
+  ],
+  "meta": {
+    "base_sqlite": "data/derived/crib1.sqlite",
+    "genere_le": "2026-08-31T14:08:09+00:00",
+    "girth": "installe",
+    "graine_maitresse": 20240117,
+    "mode": "reel",
+    "numpy": "2.4.6",
+    "pandas": "3.0.5",
+    "passation_autorisee": false,
+    "plateforme": "Linux-6.18.44-fc-v22-x86_64-with-glibc2.39",
+    "python": "3.11.15",
+    "r_clone": 0.8,
+    "scipy": "1.17.1",
+    "semopy": "2.3.11",
+    "verification_normes": "2026-08-31T09:51:40+00:00"
+  },
+  "normes_employees": [],
+  "profil": [],
+  "sous_tests_non_scorables": {
+    "C1": {
+      "canal": "NOYAU",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Matrices figurales",
+      "source_norme_manquante": "ICAR_SAPA"
+    },
+    "C2": {
+      "canal": "NOYAU",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Rotation 3D",
+      "source_norme_manquante": "ICAR_SAPA"
+    },
+    "C3": {
+      "canal": "NOYAU",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Empan spatial direct",
+      "source_norme_manquante": "NCPT"
+    },
+    "C3bis": {
+      "canal": "NOYAU",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Empan spatial direct (sequences nouvelles)",
+      "source_norme_manquante": "NCPT"
+    },
+    "C4": {
+      "canal": "NOYAU",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Empan spatial inverse",
+      "source_norme_manquante": "NCPT"
+    },
+    "C4bis": {
+      "canal": "NOYAU",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Empan spatial inverse (sequences nouvelles)",
+      "source_norme_manquante": "NCPT"
+    },
+    "C5": {
+      "canal": "NOYAU",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Empan complexe",
+      "source_norme_manquante": "NCPT"
+    },
+    "C6": {
+      "canal": "NOYAU",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Matrices progressives",
+      "source_norme_manquante": "NCPT"
+    },
+    "C7": {
+      "canal": "NOYAU",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Reconnaissance d'objets",
+      "source_norme_manquante": "NCPT"
+    },
+    "K1": {
+      "canal": "CONTAMINATION",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Series de lettres et de nombres",
+      "source_norme_manquante": "ICAR_SAPA"
+    },
+    "K2": {
+      "canal": "CONTAMINATION",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Raisonnement verbal-numerique chronometre",
+      "source_norme_manquante": "UKB_20016"
+    },
+    "V1": {
+      "canal": "VITESSE",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Attention visuelle divisee",
+      "source_norme_manquante": "NCPT"
+    },
+    "V2": {
+      "canal": "VITESSE",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Trail Making A",
+      "source_norme_manquante": "NCPT"
+    },
+    "V3": {
+      "canal": "VITESSE",
+      "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+      "nom": "Code symboles-chiffres",
+      "source_norme_manquante": "NCPT"
+    }
+  },
+  "total": null,
+  "verification_normes": {
+    "code_retour": 1,
+    "fichiers": [],
+    "manifeste": "data/raw/MANIFEST.json",
+    "motif_refus": "sources obligatoires indisponibles : ICAR_SAPA, NCPT",
+    "passation_autorisee": false,
+    "sources": {
+      "ICAR_SAPA": {
+        "motif": "telechargement echoue (politique_reseau) : la politique d'egress de cette session refuse l'hote. Detail : HTTPSConnectionPool(host='dataverse.harvard.edu', port=443): Max retries exceeded with url: /api/datasets/:persistentId/?persistentId=doi",
+        "obligatoire": true,
+        "statut": "ABSENTE",
+        "url": "https://dataverse.harvard.edu/api/datasets/:persistentId/?persistentId=doi:10.7910/DVN/AD9RVY"
+      },
+      "NCPT": {
+        "motif": "telechargement echoue (politique_reseau) : la politique d'egress de cette session refuse l'hote. Detail : HTTPSConnectionPool(host='zenodo.org', port=443): Max retries exceeded with url: /api/records/7249732 (Caused by ProxyError('Unable to co",
+        "obligatoire": true,
+        "statut": "ABSENTE",
+        "url": "https://zenodo.org/api/records/7249732"
+      },
+      "UKB_20016": {
+        "motif": "telechargement echoue (politique_reseau) : la politique d'egress de cette session refuse l'hote. Detail : HTTPSConnectionPool(host='biobank.ndph.ox.ac.uk', port=443): Max retries exceeded with url: /ukb/field.cgi?id=20016 (Caused by ProxyError",
+        "obligatoire": false,
+        "statut": "ABSENTE",
+        "url": "https://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=20016"
+      }
+    },
+    "sous_tests_non_scorables": {
+      "C1": {
+        "canal": "NOYAU",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Matrices figurales",
+        "source_norme_manquante": "ICAR_SAPA"
+      },
+      "C2": {
+        "canal": "NOYAU",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Rotation 3D",
+        "source_norme_manquante": "ICAR_SAPA"
+      },
+      "C3": {
+        "canal": "NOYAU",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Empan spatial direct",
+        "source_norme_manquante": "NCPT"
+      },
+      "C3bis": {
+        "canal": "NOYAU",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Empan spatial direct (sequences nouvelles)",
+        "source_norme_manquante": "NCPT"
+      },
+      "C4": {
+        "canal": "NOYAU",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Empan spatial inverse",
+        "source_norme_manquante": "NCPT"
+      },
+      "C4bis": {
+        "canal": "NOYAU",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Empan spatial inverse (sequences nouvelles)",
+        "source_norme_manquante": "NCPT"
+      },
+      "C5": {
+        "canal": "NOYAU",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Empan complexe",
+        "source_norme_manquante": "NCPT"
+      },
+      "C6": {
+        "canal": "NOYAU",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Matrices progressives",
+        "source_norme_manquante": "NCPT"
+      },
+      "C7": {
+        "canal": "NOYAU",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Reconnaissance d'objets",
+        "source_norme_manquante": "NCPT"
+      },
+      "K1": {
+        "canal": "CONTAMINATION",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Series de lettres et de nombres",
+        "source_norme_manquante": "ICAR_SAPA"
+      },
+      "K2": {
+        "canal": "CONTAMINATION",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Raisonnement verbal-numerique chronometre",
+        "source_norme_manquante": "UKB_20016"
+      },
+      "V1": {
+        "canal": "VITESSE",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Attention visuelle divisee",
+        "source_norme_manquante": "NCPT"
+      },
+      "V2": {
+        "canal": "VITESSE",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Trail Making A",
+        "source_norme_manquante": "NCPT"
+      },
+      "V3": {
+        "canal": "VITESSE",
+        "consequence": "passation possible ; AUCUN score normatif. Le rapport affichera « pas de reference » et exclura ce sub-test du score (R1).",
+        "nom": "Code symboles-chiffres",
+        "source_norme_manquante": "NCPT"
+      }
+    },
+    "verifie_le": "2026-08-31T09:51:40+00:00"
+  }
+}

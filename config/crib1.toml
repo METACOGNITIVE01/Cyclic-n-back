@@ -1,0 +1,73 @@
+# CRIB-1 — configuration de passation et de scoring.
+# Aucune valeur normative ici. Uniquement des parametres de protocole,
+# de modele et d'affichage, tous explicites et modifiables.
+
+[sujet]
+identifiant          = "S001"
+age_annees           = 21
+sexe                 = "homme"
+langue               = "fr"
+main_dominante       = "droite_presumee"
+niveau_education     = ""          # a saisir avant la session 1 ; sert au choix de la ligne NCPT
+
+[protocole]
+graine_maitresse            = 20240117
+intervalle_min_sessions_h   = 48
+pause_obligatoire_s         = 60
+pause_toutes_les_n_taches   = 2
+session1 = ["C1", "C2", "C3", "C4", "V2"]
+session2 = ["C6", "C7", "C5", "C3bis", "C4bis", "V1", "V3", "K1", "K2"]
+k2_optionnel = true
+
+[qualification]
+n_demonstrations_min = 4
+n_demonstrations_max = 6
+n_essais_qualif      = 3
+n_reussites_requises = 3   # echec => sub-test non score, JAMAIS compte comme echec (R5)
+
+[controles_effort]
+# Jamais annonces au sujet (§3). Declenchement => elargissement de l'intervalle,
+# jamais annulation du sub-test.
+latence_plancher_ms          = 250
+longueur_serie_identique     = 5
+facteur_elargissement_sigma  = 1.5
+
+[chronometrie]
+# §7 : refus de passation si le taux de rafraichissement varie de plus de 5 %
+# pendant une tache chronometree.
+tolerance_variation_refresh  = 0.05
+n_frames_calibration         = 120
+
+[modele]
+theta_min       = -4.0
+theta_max       =  4.0
+theta_pas       =  0.01
+hdi_masse       =  0.90
+ppp_tirages     =  5000
+student_t_ddl   =  4
+irt_modele      = "2PL"     # "2PL" ou "3PL"
+irt_c_max       =  0.125    # borne du pseudo-hasard si 3PL (8 options => 1/8)
+
+[clone]
+# §5.6 : r_clone est un parametre EXPLICITE, inconnu, jamais mesure ici.
+r_clone_defaut          = 0.80
+r_clone_sensibilite_min = 0.70
+r_clone_sensibilite_max = 0.90
+r_clone_sensibilite_pas = 0.05
+decalage_difficulte_sd  = 0.25   # terme systematique de non-equivalence (R4)
+
+[poids]
+borne_basse_polytope = 0.5
+borne_haute_polytope = 1.5
+
+[affichage]
+echelle_sd            = 15.0
+echelle_moyenne       = 100.0
+ia_seuil_haut         = 0.70
+ia_seuil_bas          = 0.45
+hide_total_below_IA   = ""       # "" = null = jamais supprimer le total (§5.4)
+percentile_arrondi    = 5        # §9 : jamais de percentile a la decimale
+
+[serveur]
+hote = "127.0.0.1"
+port = 8787
