@@ -1,0 +1,80 @@
+{
+  "_avertissement": [
+    "Ce fichier declare OU aller chercher les donnees. Il ne contient AUCUNE valeur",
+    "normative utilisable pour le scoring. Les champs 'advisory_*' proviennent de",
+    "l'enonce de la tache humaine, PAS d'un fichier de donnees : ils servent",
+    "uniquement de garde-fou de verification (signaler un telechargement tronque)",
+    "et sont interdits d'usage dans scoring/. Voir R1."
+  ],
+  "sources": [
+    {
+      "id": "ICAR_SAPA",
+      "titre": "ICAR / SAPA — reponses item par item",
+      "licence": "CC0",
+      "doi": "10.7910/DVN/AD9RVY",
+      "acces": {
+        "type": "dataverse",
+        "hote": "dataverse.harvard.edu",
+        "api_dataset": "https://dataverse.harvard.edu/api/datasets/:persistentId/?persistentId=doi:10.7910/DVN/AD9RVY",
+        "api_fichier": "https://dataverse.harvard.edu/api/access/datafile/{id}"
+      },
+      "documentation": "https://openpsychologydata.metajnl.com/articles/10.5334/jopd.25",
+      "advisory_n_sujets": 96958,
+      "advisory_source": "enonce de la tache (non verifie)",
+      "contenu_attendu": {
+        "items_total": 60,
+        "echelles": {
+          "letter_number": 9,
+          "matrix_reasoning": 11,
+          "verbal_reasoning": 16,
+          "three_dimensional_rotation": 24
+        },
+        "codage": "0/1",
+        "demographiques": ["age", "sexe", "niveau_education", "pays"]
+      },
+      "utilise_pour": ["C1", "C2", "K1"],
+      "obligatoire": true
+    },
+    {
+      "id": "NCPT",
+      "titre": "NCPT — Lumos Labs, normes par sous-test",
+      "licence": "CC BY 4.0",
+      "acces": {
+        "type": "zenodo",
+        "hote": "zenodo.org",
+        "record": "7249732",
+        "api_record": "https://zenodo.org/api/records/7249732"
+      },
+      "motif_fichiers": "battery.*_norms\\.csv$",
+      "batteries_attendues": [17, 32, 39, 50, 60],
+      "advisory_n_sujets": 757427,
+      "advisory_source": "enonce de la tache (non verifie)",
+      "colonnes_attendues": [
+        "subtest_name", "specific_subtest_id", "age", "education_level",
+        "gender", "N", "mean", "SD"
+      ],
+      "colonnes_percentiles_attendues": ["10th", "25th", "50th", "75th", "90th"],
+      "bande_age_utilisee": "18-29",
+      "bandes_age_attendues": ["18-29", "30-39", "40-49", "50-59", "60-69", "70-99"],
+      "utilise_pour": ["C3", "C4", "C5", "C6", "C7", "V1", "V2", "V3"],
+      "obligatoire": true
+    },
+    {
+      "id": "UKB_20016",
+      "titre": "UK Biobank — champ 20016 Fluid intelligence score",
+      "licence": "acces public de la page de description du champ",
+      "acces": {
+        "type": "html_pdf",
+        "hote": "biobank.ndph.ox.ac.uk",
+        "page_champ": "https://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=20016",
+        "pdf_items": "https://biobank.ctsu.ox.ac.uk/crystal/crystal/docs/Fluidintelligence.pdf"
+      },
+      "champs_items": [4935, 4946, 4957, 4968, 4979, 4990, 5001, 5012, 5556, 5699, 5779, 5790, 5866],
+      "extraits_a_conserver": ["N", "moyenne", "ecart_type", "mediane", "table_frequence_0_13"],
+      "groupe_age_reference": "40-69",
+      "correction_age": "INTERDITE (voir R1 et §9)",
+      "utilise_pour": ["K2"],
+      "obligatoire": false
+    }
+  ]
+}

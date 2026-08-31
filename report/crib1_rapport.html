@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>CRIB-1 — rapport</title><style>
+:root{--fond:#fbfbf9;--encre:#191920;--doux:#63636e;--trait:#dedede;
+ --accent:#0a4fa8;--alerte:#a8320a;--ok:#1d6b34;--carte:#fff;--ombre:rgba(0,0,0,.05)}
+@media (prefers-color-scheme:dark){:root{--fond:#111116;--encre:#e9e9ec;--doux:#9a9aa6;
+ --trait:#31313b;--accent:#7ab0ff;--alerte:#ff9070;--ok:#6fd68f;--carte:#1a1a21;
+ --ombre:rgba(0,0,0,.4)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--encre);
+ font:15px/1.62 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:34px 22px 90px}
+h1{font-size:30px;margin:0 0 4px} h2{font-size:21px;margin:44px 0 12px;
+ padding-bottom:7px;border-bottom:1px solid var(--trait)}
+h3{font-size:16px;margin:26px 0 8px} h4{font-size:14px;margin:0 0 6px;
+ text-transform:uppercase;letter-spacing:.06em;color:var(--doux)}
+p{margin:.5em 0} .chapo{color:var(--doux)} .aide{color:var(--doux);font-size:13.5px}
+.petit{font-size:12.5px} .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.sha{word-break:break-all;max-width:230px;display:inline-block}
+.bandeau{border-radius:9px;padding:14px 18px;margin:0 0 26px;font-size:14px;
+ border:1px solid var(--alerte);border-left-width:5px;background:var(--carte)}
+.bandeau.demo{border-color:var(--accent)}
+.cadrage{margin:16px 0;padding-left:14px;border-left:3px solid var(--trait)}
+.cadrage h3{margin:0 0 3px;font-size:15px} .cadrage p{margin:0;color:var(--doux)}
+.encadre{background:var(--carte);border:1px solid var(--trait);border-radius:9px;
+ padding:14px 18px;margin:20px 0;box-shadow:0 1px 2px var(--ombre)}
+.encadre.alerte-bloc{border-color:var(--alerte)}
+.interdits{margin:.4em 0;padding-left:20px} .interdits li{margin:.2em 0}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+.large{font-size:12.5px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--trait);
+ vertical-align:top}
+th{color:var(--doux);font-weight:600;font-size:12.5px;text-transform:uppercase;
+ letter-spacing:.04em}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.code{font-weight:700}
+.etiquette{font-size:11.5px;padding:2px 7px;border-radius:20px;border:1px solid var(--trait)}
+.etiquette.clone{border-color:var(--alerte);color:var(--alerte)}
+.etiquette.exact{border-color:var(--ok);color:var(--ok)}
+.absent{color:var(--alerte)} .ok{color:var(--ok)}
+.alerte{color:var(--alerte)}
+.total{background:var(--carte);border:1px solid var(--trait);border-radius:11px;
+ padding:18px 22px;margin:14px 0}
+.total.second{opacity:.9;border-style:dashed}
+.total.retrograde{opacity:.62;filter:grayscale(.65)}
+.ligne-total{display:flex;justify-content:space-between;align-items:baseline;
+ gap:16px;padding:5px 0}
+.ligne-total .libelle{color:var(--doux);font-size:13.5px}
+.ligne-total .valeur{font-size:19px;font-variant-numeric:tabular-nums;font-weight:600}
+.mention{margin:10px 0 0;color:var(--alerte);font-size:13.5px}
+.ecart{margin-top:10px;padding-top:9px;border-top:1px solid var(--trait)}
+.indicateurs{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+ gap:10px;margin:16px 0}
+.indicateurs>div{background:var(--carte);border:1px solid var(--trait);
+ border-radius:9px;padding:10px 13px}
+.indicateurs .k{display:block;font-size:11.5px;text-transform:uppercase;
+ letter-spacing:.05em;color:var(--doux)}
+.indicateurs .v{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+.indicateurs .d{display:block;font-size:12px;color:var(--doux)}
+.reponse{font-weight:600}
+.graphe{width:100%;height:auto;margin:10px 0;overflow:visible}
+.graphe .grille{stroke:var(--trait);stroke-width:1}
+.graphe .zero{stroke:var(--doux);stroke-width:1;stroke-dasharray:4 4}
+.graphe .axe{fill:var(--doux);font-size:11px}
+.graphe .etiq{fill:var(--encre);font-size:12px}
+.graphe .note{fill:var(--doux);font-size:10.5px}
+.graphe .ic{stroke:var(--accent);stroke-width:2}
+.graphe .pt{fill:var(--accent)}
+.graphe .courbe{fill:none;stroke:var(--accent);stroke-width:2}
+.graphe .hdi{fill:var(--accent);opacity:.17}
+.graphe .moy{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 3}
+.graphe .barre{fill:var(--accent);opacity:.72}
+.graphe .val{fill:var(--doux);font-size:11.5px}
+.graphe .absent{fill:var(--alerte);font-size:11.5px}
+.vide{color:var(--doux);font-style:italic}
+footer{margin-top:50px;padding-top:16px;border-top:1px solid var(--trait);
+ color:var(--doux);font-size:12.5px}
+@media print{body{background:#fff}.total.retrograde{filter:none;opacity:1}}
+</style></head>
+<body><main>
+<h1>CRIB-1 — rapport</h1>
+<div class="bandeau">
+<strong>Aucun score n'est produit.</strong> sources obligatoires indisponibles : ICAR_SAPA, NCPT
+Les 14 sub-tests de la batterie sont sans reference : conformement a
+la regle de provenance (R1), le programme affiche « pas de reference » et les exclut
+du score plutot que d'interpoler une norme.</div>
+
+<section id="cadrage">
+  <h2>1. Ce que ce test peut et ne peut pas dire</h2>
+  <div class="cadrage"><h3>Contenu reduit n&#x27;est pas absence de biais.</h3><p>Retirer le vocabulaire, les references culturelles explicites et une partie de l&#x27;arithmetique reduit certaines sources de variance etrangeres au raisonnement. Cela n&#x27;en fait pas une mesure neutre. La familiarite avec les surfaces graphiques, la souris, les jeux de reglage visuel, l&#x27;habitude des epreuves a choix multiple restent des competences acquises, inegalement distribuees, et elles sont mesurees ici en meme temps que le raisonnement.</p></div><div class="cadrage"><h3>Les echantillons de reference ne sont pas representatifs.</h3><p>SAPA est un echantillon de volontaires en ligne, majoritairement etudiants : il n&#x27;est jamais utilise brut ici, mais le redressement corrige des marges, pas la selection sur des variables non observees. NCPT est une population d&#x27;utilisateurs d&#x27;un logiciel d&#x27;entrainement cognitif, donc auto-selectionnee elle aussi. UK Biobank a 40-69 ans, c&#x27;est-a-dire pas l&#x27;age du sujet.</p></div><div class="cadrage"><h3>Une partie des sub-tests est clonee, pas identique.</h3><p>Les items etiquetes ITEMS_CLONES sont regeneres d&#x27;apres la description publiee de la tache. Ils mesurent probablement quelque chose de tres proche, mais la norme a ete etablie sur les items d&#x27;origine, pas sur ceux-ci. L&#x27;ecart est traite comme une incertitude explicite (composante sigma_clone), pas comme une quantite negligeable.</p></div><div class="cadrage"><h3>Le facteur general obtenu ici est un g a contenu reduit.</h3><p>Ce n&#x27;est pas le g d&#x27;une batterie large. Il est estime sur sept sub-tests qui sur-representent l&#x27;induction figurale et la visualisation spatiale et qui excluent entierement le contenu verbal. Un facteur general extrait d&#x27;un domaine etroit est plus etroit que le facteur qu&#x27;on extrait d&#x27;un domaine large, meme quand les deux se correlent fortement.</p></div><div class="cadrage"><h3>Aucune equivalence avec une batterie clinique n&#x27;est annoncee.</h3><p>Les points d&#x27;echelle sont exprimes sur une metrique de moyenne 100 et d&#x27;ecart-type 15 parce que c&#x27;est une convention de lecture repandue. Ce n&#x27;est pas une equivalence WAIS, et ce rapport n&#x27;en propose aucune.</p></div><div class="cadrage"><h3>Un score unique n&#x27;est jamais donne sans intervalle.</h3><p>Tous les chiffres de ce rapport sont accompagnes d&#x27;un intervalle. Quand une composante d&#x27;incertitude n&#x27;a pas pu etre quantifiee faute de source, l&#x27;intervalle affiche est une BORNE INFERIEURE de l&#x27;incertitude reelle, et c&#x27;est signale a l&#x27;endroit ou il apparait.</p></div>
+  <div class="encadre">
+    <h4>Ce que ce programme ne fait jamais</h4>
+    <ul class="interdits"><li>produire un « QI » unique sans intervalle</li><li>annoncer une equivalence WAIS</li><li>corriger le score UK Biobank pour l&#x27;age</li><li>utiliser l&#x27;echantillon SAPA brut comme reference de population</li><li>traduire un item lexical et conserver sa norme</li><li>compter un echec de qualification comme une reponse fausse</li><li>fusionner le canal vitesse ou le canal contamination dans le score general</li><li>afficher un percentile a la decimale pres</li></ul>
+  </div>
+</section>
+<section id="sans-reference">
+  <h2>2. Etat des references</h2>
+  <p class="chapo">Aucun score n'est calcule. Voici pourquoi, source par source.</p>
+  <table><thead><tr><th>source</th><th>statut</th><th>motif</th></tr></thead>
+    <tbody><tr><td class="code">ICAR_SAPA</td><td>ABSENTE</td><td class="petit">telechargement echoue (politique_reseau) : la politique d&#x27;egress de cette session refuse l&#x27;hote. Detail : HTTPSConnectionPool(host=&#x27;dataverse.harvard.edu&#x27;, port=443): Max retries exceeded with url: /api/datasets/:persistentId/?persistentId=doi</td></tr><tr><td class="code">NCPT</td><td>ABSENTE</td><td class="petit">telechargement echoue (politique_reseau) : la politique d&#x27;egress de cette session refuse l&#x27;hote. Detail : HTTPSConnectionPool(host=&#x27;zenodo.org&#x27;, port=443): Max retries exceeded with url: /api/records/7249732 (Caused by ProxyError(&#x27;Unable to co</td></tr><tr><td class="code">UKB_20016</td><td>ABSENTE</td><td class="petit">telechargement echoue (politique_reseau) : la politique d&#x27;egress de cette session refuse l&#x27;hote. Detail : HTTPSConnectionPool(host=&#x27;biobank.ndph.ox.ac.uk&#x27;, port=443): Max retries exceeded with url: /ukb/field.cgi?id=20016 (Caused by ProxyError</td></tr></tbody></table>
+  <h3>Sub-tests sans reference</h3>
+  <table><thead><tr><th>code</th><th>sub-test</th><th>canal</th>
+    <th>source manquante</th></tr></thead><tbody><tr><td class="code">C1</td><td>Matrices figurales</td><td>NOYAU</td><td>ICAR_SAPA</td></tr><tr><td class="code">C2</td><td>Rotation 3D</td><td>NOYAU</td><td>ICAR_SAPA</td></tr><tr><td class="code">C3</td><td>Empan spatial direct</td><td>NOYAU</td><td>NCPT</td></tr><tr><td class="code">C3bis</td><td>Empan spatial direct (sequences nouvelles)</td><td>NOYAU</td><td>NCPT</td></tr><tr><td class="code">C4</td><td>Empan spatial inverse</td><td>NOYAU</td><td>NCPT</td></tr><tr><td class="code">C4bis</td><td>Empan spatial inverse (sequences nouvelles)</td><td>NOYAU</td><td>NCPT</td></tr><tr><td class="code">C5</td><td>Empan complexe</td><td>NOYAU</td><td>NCPT</td></tr><tr><td class="code">C6</td><td>Matrices progressives</td><td>NOYAU</td><td>NCPT</td></tr><tr><td class="code">C7</td><td>Reconnaissance d&#x27;objets</td><td>NOYAU</td><td>NCPT</td></tr><tr><td class="code">K1</td><td>Series de lettres et de nombres</td><td>CONTAMINATION</td><td>ICAR_SAPA</td></tr><tr><td class="code">K2</td><td>Raisonnement verbal-numerique chronometre</td><td>CONTAMINATION</td><td>UKB_20016</td></tr><tr><td class="code">V1</td><td>Attention visuelle divisee</td><td>VITESSE</td><td>NCPT</td></tr><tr><td class="code">V2</td><td>Trail Making A</td><td>VITESSE</td><td>NCPT</td></tr><tr><td class="code">V3</td><td>Code symboles-chiffres</td><td>VITESSE</td><td>NCPT</td></tr></tbody></table>
+  <div class="encadre">
+    <h4>Ce que cela veut dire</h4>
+    <p>La passation reste possible et la base SQLite enregistre chaque essai au
+    grain le plus fin. Ce qui manque est la <em>reference</em> : sans elle, un
+    score brut n'est pas interpretable, et le programme refuse de lui en inventer
+    une. Relancer <code>python3 fetch_norms.py</code> depuis un poste ayant acces
+    au reseau public, puis <code>python3 verify_norms.py</code>, puis regenerer ce
+    rapport.</p>
+  </div>
+</section>
+<section id="canaux">
+  <h2>6. Canal vitesse et canal contamination</h2>
+  <p class="chapo">Le canal vitesse et le canal contamination sont rapportes a part et n&#x27;entrent dans aucun score general. Le canal contamination existe precisement pour mesurer l&#x27;ecart entre une performance qui depend de conventions notationnelles apprises (ordre alphabetique, chiffres arabes, arithmetique, anglais) et une performance qui en depend moins.</p>
+  <h3>Canal vitesse</h3><table><thead><tr><th>code</th><th>sub-test</th><th>temps</th><th>depend d'une convention notationnelle</th><th>etat</th></tr></thead><tbody><tr><td class="code">V1</td><td>Attention visuelle divisee</td><td>chronometre</td><td>non</td><td><span class="absent">pas de reference</span></td></tr><tr><td class="code">V2</td><td>Trail Making A</td><td>chronometre</td><td>oui</td><td><span class="absent">pas de reference</span></td></tr><tr><td class="code">V3</td><td>Code symboles-chiffres</td><td>chronometre</td><td>oui</td><td><span class="absent">pas de reference</span></td></tr></tbody></table>
+  <h3>Canal contamination</h3><table><thead><tr><th>code</th><th>sub-test</th><th>temps</th><th>depend d'une convention notationnelle</th><th>etat</th></tr></thead><tbody><tr><td class="code">K1</td><td>Series de lettres et de nombres</td><td>sans limite</td><td>oui</td><td><span class="absent">pas de reference</span></td></tr><tr><td class="code">K2</td><td>Raisonnement verbal-numerique chronometre</td><td>chronometre</td><td>oui</td><td><span class="absent">pas de reference</span></td></tr></tbody></table>
+  <div class="encadre">
+    <h4>Contraste chronometre / non chronometre</h4>
+    <p>Le noyau est administre sans limite de temps pour les epreuves de
+    raisonnement (C1, C2, C6). Le canal vitesse est integralement chronometre.
+    L'ecart entre les deux est la quantite interessante ; il n'est calculable que
+    si les deux canaux disposent d'une reference. Ce n'est pas le cas ici tant que
+    les fichiers normatifs ne sont pas telecharges.</p>
+  </div>
+</section>
+<section id="predictions">
+  <h2>7. Ce que ces scores predisent</h2>
+  <div class="encadre alerte-bloc">
+    <p>Aucun coefficient de validite publie n&#x27;a pu etre telecharge et cite dans cette execution. Cette section reste donc vide : le rapport ne propose aucune prediction de reussite scolaire, professionnelle, de revenu ou de sante. Enoncer une prediction sans son coefficient source et sans son intervalle residuel serait exactement ce que ce dispositif est cense empecher.</p>
+  </div>
+  <p class="aide">Rappel de lecture pour toute prediction : avec une correlation r = 0,50 entre le score et un critere, connaitre le score laisse encore un ecart-type residuel de sqrt(1 - 0,50^2) = 0,87 ecart-type sur ce critere. La variance expliquee est de 25 %, ce qui veut dire que 75 % de la variation du critere reste ailleurs.</p>
+</section>
+<section id="provenance">
+  <h2>8. Annexe provenance</h2>
+  <div class="encadre alerte-bloc">
+    <p>Aucune valeur normative n'a ete employee dans ce rapport. L'annexe est
+    donc vide, et c'est coherent : aucun score normatif n'y figure. Une annexe
+    vide accompagnee de scores serait le signe d'une violation de la regle de
+    provenance (R1).</p>
+  </div>
+</section>
+<section id="reproductibilite">
+  <h2>9. Annexe reproductibilite</h2>
+  <table><tbody><tr><td>genere_le</td><td class="petit mono">2026-08-31T14:08:09+00:00</td></tr><tr><td>mode</td><td class="petit mono">reel</td></tr><tr><td>graine_maitresse</td><td class="petit mono">20240117</td></tr><tr><td>r_clone</td><td class="petit mono">0.8</td></tr><tr><td>python</td><td class="petit mono">3.11.15</td></tr><tr><td>plateforme</td><td class="petit mono">Linux-6.18.44-fc-v22-x86_64-with-glibc2.39</td></tr><tr><td>numpy</td><td class="petit mono">2.4.6</td></tr><tr><td>scipy</td><td class="petit mono">1.17.1</td></tr><tr><td>pandas</td><td class="petit mono">3.0.5</td></tr><tr><td>girth</td><td class="petit mono">installe</td></tr><tr><td>semopy</td><td class="petit mono">2.3.11</td></tr><tr><td>verification_normes</td><td class="petit mono">2026-08-31T09:51:40+00:00</td></tr><tr><td>passation_autorisee</td><td class="petit mono">False</td></tr><tr><td>base_sqlite</td><td class="petit mono">data/derived/crib1.sqlite</td></tr></tbody></table>
+</section>
+<footer>CRIB-1 — Culture-Reduced Inference Battery, version 1.
+Rapport genere localement. Aucun modele de langage n'intervient dans la
+passation ni dans le scoring (R2).</footer>
+</main></body></html>

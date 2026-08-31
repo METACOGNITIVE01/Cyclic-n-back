@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>CRIB-1 — rapport de demonstration</title><style>
+:root{--fond:#fbfbf9;--encre:#191920;--doux:#63636e;--trait:#dedede;
+ --accent:#0a4fa8;--alerte:#a8320a;--ok:#1d6b34;--carte:#fff;--ombre:rgba(0,0,0,.05)}
+@media (prefers-color-scheme:dark){:root{--fond:#111116;--encre:#e9e9ec;--doux:#9a9aa6;
+ --trait:#31313b;--accent:#7ab0ff;--alerte:#ff9070;--ok:#6fd68f;--carte:#1a1a21;
+ --ombre:rgba(0,0,0,.4)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fond);color:var(--encre);
+ font:15px/1.62 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{max-width:860px;margin:0 auto;padding:34px 22px 90px}
+h1{font-size:30px;margin:0 0 4px} h2{font-size:21px;margin:44px 0 12px;
+ padding-bottom:7px;border-bottom:1px solid var(--trait)}
+h3{font-size:16px;margin:26px 0 8px} h4{font-size:14px;margin:0 0 6px;
+ text-transform:uppercase;letter-spacing:.06em;color:var(--doux)}
+p{margin:.5em 0} .chapo{color:var(--doux)} .aide{color:var(--doux);font-size:13.5px}
+.petit{font-size:12.5px} .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.sha{word-break:break-all;max-width:230px;display:inline-block}
+.bandeau{border-radius:9px;padding:14px 18px;margin:0 0 26px;font-size:14px;
+ border:1px solid var(--alerte);border-left-width:5px;background:var(--carte)}
+.bandeau.demo{border-color:var(--accent)}
+.cadrage{margin:16px 0;padding-left:14px;border-left:3px solid var(--trait)}
+.cadrage h3{margin:0 0 3px;font-size:15px} .cadrage p{margin:0;color:var(--doux)}
+.encadre{background:var(--carte);border:1px solid var(--trait);border-radius:9px;
+ padding:14px 18px;margin:20px 0;box-shadow:0 1px 2px var(--ombre)}
+.encadre.alerte-bloc{border-color:var(--alerte)}
+.interdits{margin:.4em 0;padding-left:20px} .interdits li{margin:.2em 0}
+table{border-collapse:collapse;width:100%;margin:14px 0;font-size:13.5px}
+.large{font-size:12.5px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--trait);
+ vertical-align:top}
+th{color:var(--doux);font-weight:600;font-size:12.5px;text-transform:uppercase;
+ letter-spacing:.04em}
+td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.code{font-weight:700}
+.etiquette{font-size:11.5px;padding:2px 7px;border-radius:20px;border:1px solid var(--trait)}
+.etiquette.clone{border-color:var(--alerte);color:var(--alerte)}
+.etiquette.exact{border-color:var(--ok);color:var(--ok)}
+.absent{color:var(--alerte)} .ok{color:var(--ok)}
+.alerte{color:var(--alerte)}
+.total{background:var(--carte);border:1px solid var(--trait);border-radius:11px;
+ padding:18px 22px;margin:14px 0}
+.total.second{opacity:.9;border-style:dashed}
+.total.retrograde{opacity:.62;filter:grayscale(.65)}
+.ligne-total{display:flex;justify-content:space-between;align-items:baseline;
+ gap:16px;padding:5px 0}
+.ligne-total .libelle{color:var(--doux);font-size:13.5px}
+.ligne-total .valeur{font-size:19px;font-variant-numeric:tabular-nums;font-weight:600}
+.mention{margin:10px 0 0;color:var(--alerte);font-size:13.5px}
+.ecart{margin-top:10px;padding-top:9px;border-top:1px solid var(--trait)}
+.indicateurs{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+ gap:10px;margin:16px 0}
+.indicateurs>div{background:var(--carte);border:1px solid var(--trait);
+ border-radius:9px;padding:10px 13px}
+.indicateurs .k{display:block;font-size:11.5px;text-transform:uppercase;
+ letter-spacing:.05em;color:var(--doux)}
+.indicateurs .v{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+.indicateurs .d{display:block;font-size:12px;color:var(--doux)}
+.reponse{font-weight:600}
+.graphe{width:100%;height:auto;margin:10px 0;overflow:visible}
+.graphe .grille{stroke:var(--trait);stroke-width:1}
+.graphe .zero{stroke:var(--doux);stroke-width:1;stroke-dasharray:4 4}
+.graphe .axe{fill:var(--doux);font-size:11px}
+.graphe .etiq{fill:var(--encre);font-size:12px}
+.graphe .note{fill:var(--doux);font-size:10.5px}
+.graphe .ic{stroke:var(--accent);stroke-width:2}
+.graphe .pt{fill:var(--accent)}
+.graphe .courbe{fill:none;stroke:var(--accent);stroke-width:2}
+.graphe .hdi{fill:var(--accent);opacity:.17}
+.graphe .moy{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 3}
+.graphe .barre{fill:var(--accent);opacity:.72}
+.graphe .val{fill:var(--doux);font-size:11.5px}
+.graphe .absent{fill:var(--alerte);font-size:11.5px}
+.vide{color:var(--doux);font-style:italic}
+footer{margin-top:50px;padding-top:16px;border-top:1px solid var(--trait);
+ color:var(--doux);font-size:12.5px}
+@media print{body{background:#fff}.total.retrograde{filter:none;opacity:1}}
+</style></head>
+<body><main>
+<h1>CRIB-1 — rapport de demonstration</h1>
+<div class="bandeau demo">
+<strong>RAPPORT DE DEMONSTRATION — DONNEES SIMULEES.</strong>
+Aucune passation reelle, aucune norme. Les nombres de ce rapport proviennent d'un
+sujet virtuel tire au sort (theta_g vrai = -0.305) avec des
+saturations de plan de simulation. Ils montrent la <em>forme</em> de la sortie ;
+ils n'ont aucune valeur descriptive. L'annexe de provenance est vide, et c'est la
+difference decisive avec un rapport reel.</div>
+
+<section id="cadrage">
+  <h2>1. Ce que ce test peut et ne peut pas dire</h2>
+  <div class="cadrage"><h3>Contenu reduit n&#x27;est pas absence de biais.</h3><p>Retirer le vocabulaire, les references culturelles explicites et une partie de l&#x27;arithmetique reduit certaines sources de variance etrangeres au raisonnement. Cela n&#x27;en fait pas une mesure neutre. La familiarite avec les surfaces graphiques, la souris, les jeux de reglage visuel, l&#x27;habitude des epreuves a choix multiple restent des competences acquises, inegalement distribuees, et elles sont mesurees ici en meme temps que le raisonnement.</p></div><div class="cadrage"><h3>Les echantillons de reference ne sont pas representatifs.</h3><p>SAPA est un echantillon de volontaires en ligne, majoritairement etudiants : il n&#x27;est jamais utilise brut ici, mais le redressement corrige des marges, pas la selection sur des variables non observees. NCPT est une population d&#x27;utilisateurs d&#x27;un logiciel d&#x27;entrainement cognitif, donc auto-selectionnee elle aussi. UK Biobank a 40-69 ans, c&#x27;est-a-dire pas l&#x27;age du sujet.</p></div><div class="cadrage"><h3>Une partie des sub-tests est clonee, pas identique.</h3><p>Les items etiquetes ITEMS_CLONES sont regeneres d&#x27;apres la description publiee de la tache. Ils mesurent probablement quelque chose de tres proche, mais la norme a ete etablie sur les items d&#x27;origine, pas sur ceux-ci. L&#x27;ecart est traite comme une incertitude explicite (composante sigma_clone), pas comme une quantite negligeable.</p></div><div class="cadrage"><h3>Le facteur general obtenu ici est un g a contenu reduit.</h3><p>Ce n&#x27;est pas le g d&#x27;une batterie large. Il est estime sur sept sub-tests qui sur-representent l&#x27;induction figurale et la visualisation spatiale et qui excluent entierement le contenu verbal. Un facteur general extrait d&#x27;un domaine etroit est plus etroit que le facteur qu&#x27;on extrait d&#x27;un domaine large, meme quand les deux se correlent fortement.</p></div><div class="cadrage"><h3>Aucune equivalence avec une batterie clinique n&#x27;est annoncee.</h3><p>Les points d&#x27;echelle sont exprimes sur une metrique de moyenne 100 et d&#x27;ecart-type 15 parce que c&#x27;est une convention de lecture repandue. Ce n&#x27;est pas une equivalence WAIS, et ce rapport n&#x27;en propose aucune.</p></div><div class="cadrage"><h3>Un score unique n&#x27;est jamais donne sans intervalle.</h3><p>Tous les chiffres de ce rapport sont accompagnes d&#x27;un intervalle. Quand une composante d&#x27;incertitude n&#x27;a pas pu etre quantifiee faute de source, l&#x27;intervalle affiche est une BORNE INFERIEURE de l&#x27;incertitude reelle, et c&#x27;est signale a l&#x27;endroit ou il apparait.</p></div>
+  <div class="encadre">
+    <h4>Ce que ce programme ne fait jamais</h4>
+    <ul class="interdits"><li>produire un « QI » unique sans intervalle</li><li>annoncer une equivalence WAIS</li><li>corriger le score UK Biobank pour l&#x27;age</li><li>utiliser l&#x27;echantillon SAPA brut comme reference de population</li><li>traduire un item lexical et conserver sa norme</li><li>compter un echec de qualification comme une reponse fausse</li><li>fusionner le canal vitesse ou le canal contamination dans le score general</li><li>afficher un percentile a la decimale pres</li></ul>
+  </div>
+</section>
+<section id="profil">
+  <h2>2. Profil des sept sub-tests du noyau</h2>
+  <p class="chapo">Tries par valeur. Chaque point porte son intervalle a 90 %.</p>
+  <svg class="graphe" viewBox="0 0 720 296" role="img" aria-label="profil avec intervalles a 90 %">
+<line class="grille" x1="190.0" y1="18" x2="190.0" y2="266"/>
+<text class="axe" x="190.0" y="282" text-anchor="middle">-3</text>
+<line class="grille" x1="274.0" y1="18" x2="274.0" y2="266"/>
+<text class="axe" x="274.0" y="282" text-anchor="middle">-2</text>
+<line class="grille" x1="358.0" y1="18" x2="358.0" y2="266"/>
+<text class="axe" x="358.0" y="282" text-anchor="middle">-1</text>
+<line class="grille" x1="442.0" y1="18" x2="442.0" y2="266"/>
+<text class="axe" x="442.0" y="282" text-anchor="middle">0</text>
+<line class="grille" x1="526.0" y1="18" x2="526.0" y2="266"/>
+<text class="axe" x="526.0" y="282" text-anchor="middle">1</text>
+<line class="grille" x1="610.0" y1="18" x2="610.0" y2="266"/>
+<text class="axe" x="610.0" y="282" text-anchor="middle">2</text>
+<line class="grille" x1="694.0" y1="18" x2="694.0" y2="266"/>
+<text class="axe" x="694.0" y="282" text-anchor="middle">3</text>
+<line class="zero" x1="442.0" y1="18" x2="442.0" y2="266"/>
+<text class="etiq" x="178" y="45.0" text-anchor="end">C4 — Empan spatial inverse</text>
+<line class="ic" x1="471.5" y1="41.0" x2="668.9" y2="41.0"/>
+<line class="ic" x1="471.5" y1="35.0" x2="471.5" y2="47.0"/>
+<line class="ic" x1="668.9" y1="35.0" x2="668.9" y2="47.0"/>
+<circle class="pt" cx="570.2" cy="41.0" r="5"/>
+<text class="note" x="698.0" y="45.0">clone</text>
+<text class="etiq" x="178" y="79.0" text-anchor="end">C3 — Empan spatial direct</text>
+<line class="ic" x1="402.2" y1="75.0" x2="604.8" y2="75.0"/>
+<line class="ic" x1="402.2" y1="69.0" x2="402.2" y2="81.0"/>
+<line class="ic" x1="604.8" y1="69.0" x2="604.8" y2="81.0"/>
+<circle class="pt" cx="503.5" cy="75.0" r="5"/>
+<text class="note" x="698.0" y="79.0">clone</text>
+<text class="etiq" x="178" y="113.0" text-anchor="end">C6 — Matrices progressives</text>
+<line class="ic" x1="391.4" y1="109.0" x2="599.1" y2="109.0"/>
+<line class="ic" x1="391.4" y1="103.0" x2="391.4" y2="115.0"/>
+<line class="ic" x1="599.1" y1="103.0" x2="599.1" y2="115.0"/>
+<circle class="pt" cx="495.3" cy="109.0" r="5"/>
+<text class="note" x="698.0" y="113.0">clone</text>
+<text class="etiq" x="178" y="147.0" text-anchor="end">C5 — Empan complexe</text>
+<line class="ic" x1="396.1" y1="143.0" x2="582.0" y2="143.0"/>
+<line class="ic" x1="396.1" y1="137.0" x2="396.1" y2="149.0"/>
+<line class="ic" x1="582.0" y1="137.0" x2="582.0" y2="149.0"/>
+<circle class="pt" cx="489.1" cy="143.0" r="5"/>
+<text class="note" x="698.0" y="147.0">clone</text>
+<text class="etiq" x="178" y="181.0" text-anchor="end">C7 — Reconnaissance d&#x27;objets</text>
+<line class="ic" x1="375.6" y1="177.0" x2="586.6" y2="177.0"/>
+<line class="ic" x1="375.6" y1="171.0" x2="375.6" y2="183.0"/>
+<line class="ic" x1="586.6" y1="171.0" x2="586.6" y2="183.0"/>
+<circle class="pt" cx="481.1" cy="177.0" r="5"/>
+<text class="note" x="698.0" y="181.0">clone</text>
+<text class="etiq" x="178" y="215.0" text-anchor="end">C1 — Matrices figurales</text>
+<line class="ic" x1="290.5" y1="211.0" x2="533.1" y2="211.0"/>
+<line class="ic" x1="290.5" y1="205.0" x2="290.5" y2="217.0"/>
+<line class="ic" x1="533.1" y1="205.0" x2="533.1" y2="217.0"/>
+<circle class="pt" cx="411.8" cy="211.0" r="5"/>
+<text class="note" x="698.0" y="215.0">clone</text>
+<text class="etiq" x="178" y="249.0" text-anchor="end">C2 — Rotation 3D</text>
+<line class="ic" x1="284.4" y1="245.0" x2="509.6" y2="245.0"/>
+<line class="ic" x1="284.4" y1="239.0" x2="284.4" y2="251.0"/>
+<line class="ic" x1="509.6" y1="239.0" x2="509.6" y2="251.0"/>
+<circle class="pt" cx="397.0" cy="245.0" r="5"/>
+<text class="note" x="698.0" y="249.0">clone</text>
+<text class="axe" x="360.0" y="292" text-anchor="middle">z — barres : intervalle a 90 %</text>
+</svg>
+  <table>
+    <thead><tr><th>code</th><th>sub-test</th><th>z [IC 90 %]</th>
+      <th>equivalent QI [IC 90 %]</th><th>items</th><th>controles d'effort</th></tr></thead>
+    <tbody><tr><td class="code">C4</td><td>Empan spatial inverse</td><td class="num">1.53 [0.35 ; 2.70] (90%)</td><td class="num">123 [105 ; 141] (90%)</td><td><span class="etiquette clone">ITEMS_CLONES</span></td><td>—</td></tr><tr><td class="code">C3</td><td>Empan spatial direct</td><td class="num">0.73 [-0.47 ; 1.94] (90%)</td><td class="num">111 [93 ; 129] (90%)</td><td><span class="etiquette clone">ITEMS_CLONES</span></td><td>—</td></tr><tr><td class="code">C6</td><td>Matrices progressives</td><td class="num">0.63 [-0.60 ; 1.87] (90%)</td><td class="num">110 [91 ; 128] (90%)</td><td><span class="etiquette clone">ITEMS_CLONES</span></td><td>—</td></tr><tr><td class="code">C5</td><td>Empan complexe</td><td class="num">0.56 [-0.55 ; 1.67] (90%)</td><td class="num">108 [92 ; 125] (90%)</td><td><span class="etiquette clone">ITEMS_CLONES</span></td><td>—</td></tr><tr><td class="code">C7</td><td>Reconnaissance d&#x27;objets</td><td class="num">0.47 [-0.79 ; 1.72] (90%)</td><td class="num">107 [88 ; 126] (90%)</td><td><span class="etiquette clone">ITEMS_CLONES</span></td><td>—</td></tr><tr><td class="code">C1</td><td>Matrices figurales</td><td class="num">-0.36 [-1.80 ; 1.09] (90%)</td><td class="num">95 [73 ; 116] (90%)</td><td><span class="etiquette clone">ITEMS_CLONES</span></td><td>—</td></tr><tr><td class="code">C2</td><td>Rotation 3D</td><td class="num">-0.54 [-1.88 ; 0.80] (90%)</td><td class="num">92 [72 ; 112] (90%)</td><td><span class="etiquette clone">ITEMS_CLONES</span></td><td>—</td></tr></tbody>
+  </table>
+  <p class="aide">L'equivalent QI est une convention de lecture (moyenne 100,
+  ecart-type 15). Ce n'est pas une equivalence avec une batterie clinique.</p>
+</section>
+<section id="domaines">
+  <h2>3. Scores de domaine</h2>
+  <svg class="graphe" viewBox="0 0 720 160" role="img" aria-label="profil avec intervalles a 90 %">
+<line class="grille" x1="190.0" y1="18" x2="190.0" y2="130"/>
+<text class="axe" x="190.0" y="146" text-anchor="middle">-3</text>
+<line class="grille" x1="274.0" y1="18" x2="274.0" y2="130"/>
+<text class="axe" x="274.0" y="146" text-anchor="middle">-2</text>
+<line class="grille" x1="358.0" y1="18" x2="358.0" y2="130"/>
+<text class="axe" x="358.0" y="146" text-anchor="middle">-1</text>
+<line class="grille" x1="442.0" y1="18" x2="442.0" y2="130"/>
+<text class="axe" x="442.0" y="146" text-anchor="middle">0</text>
+<line class="grille" x1="526.0" y1="18" x2="526.0" y2="130"/>
+<text class="axe" x="526.0" y="146" text-anchor="middle">1</text>
+<line class="grille" x1="610.0" y1="18" x2="610.0" y2="130"/>
+<text class="axe" x="610.0" y="146" text-anchor="middle">2</text>
+<line class="grille" x1="694.0" y1="18" x2="694.0" y2="130"/>
+<text class="axe" x="694.0" y="146" text-anchor="middle">3</text>
+<line class="zero" x1="442.0" y1="18" x2="442.0" y2="130"/>
+<text class="etiq" x="178" y="45.0" text-anchor="end">INDUCTION</text>
+<line class="ic" x1="373.1" y1="41.0" x2="540.3" y2="41.0"/>
+<line class="ic" x1="373.1" y1="35.0" x2="373.1" y2="47.0"/>
+<line class="ic" x1="540.3" y1="35.0" x2="540.3" y2="47.0"/>
+<circle class="pt" cx="457.0" cy="41.0" r="5"/>
+<text class="etiq" x="178" y="79.0" text-anchor="end">MEMOIRE_TRAVAIL</text>
+<line class="ic" x1="428.6" y1="75.0" x2="592.4" y2="75.0"/>
+<line class="ic" x1="428.6" y1="69.0" x2="428.6" y2="81.0"/>
+<line class="ic" x1="592.4" y1="69.0" x2="592.4" y2="81.0"/>
+<circle class="pt" cx="510.6" cy="75.0" r="5"/>
+<text class="etiq" x="178" y="113.0" text-anchor="end">SPATIAL</text>
+<line class="ic" x1="348.8" y1="109.0" x2="532.7" y2="109.0"/>
+<line class="ic" x1="348.8" y1="103.0" x2="348.8" y2="115.0"/>
+<line class="ic" x1="532.7" y1="103.0" x2="532.7" y2="115.0"/>
+<circle class="pt" cx="441.0" cy="109.0" r="5"/>
+<text class="axe" x="360.0" y="156" text-anchor="middle">z — barres : intervalle a 90 %</text>
+</svg>
+  <table><thead><tr><th>domaine</th><th>sub-tests</th><th>z [IC 90 %]</th>
+    <th>equivalent QI [IC 90 %]</th></tr></thead><tbody><tr><td>INDUCTION</td><td>C1, C6</td><td class="num">0.18 [-0.82 ; 1.17] (90%)</td><td class="num">103 [88 ; 118] (90%)</td></tr><tr><td>MEMOIRE_TRAVAIL</td><td>C3, C4, C5</td><td class="num">0.82 [-0.16 ; 1.79] (90%)</td><td class="num">112 [98 ; 127] (90%)</td></tr><tr><td>SPATIAL</td><td>C2, C7</td><td class="num">-0.01 [-1.11 ; 1.08] (90%)</td><td class="num">100 [83 ; 116] (90%)</td></tr></tbody></table>
+  <p class="aide">posterieur de theta_g calcule sur les seuls sub-tests de ce domaine : c&#x27;est un niveau general estime a contenu restreint, pas un facteur de domaine pur</p>
+</section>
+<section id="total">
+  <h2>4. Score total</h2>
+  <div class="total retrograde">
+    <div class="ligne-total">
+      <span class="libelle">intervalle interne</span>
+      <span class="valeur">111.0 [97.1 ; 125.0] (90%)</span>
+    </div>
+    <div class="ligne-total">
+      <span class="libelle">intervalle externe</span>
+      <span class="valeur">111.0 [92.5 ; 129.9] (90%)</span>
+    </div>
+    <div class="ligne-total">
+      <span class="libelle">moyenne du posterieur de theta_g</span>
+      <span class="valeur">107.2 [97.0 ; 117.4] (90%)</span>
+    </div>
+    <p class="mention">total retrograde : le vecteur des sous-scores le precede et doit etre lu en premier</p>
+    <p class="aide ecart">Ecart entre le composite a ponderation w_g et la moyenne du posterieur : 3.9 point(s) d&#x27;echelle. Cet ecart n&#x27;est pas une erreur de calcul : le composite additionne les z sans distinguer ce qui vient du facteur general de ce qui vient des facteurs specifiques de domaine, alors que le posterieur marginalise ces derniers. Un ecart marque signale un profil dont une partie de l&#x27;elevation tient a un domaine particulier plutot qu&#x27;au niveau general.</p>
+  </div>
+  <div class="indicateurs">
+    <div><span class="k">IA</span><span class="v">0.35</span>
+      <span class="d">indice d'adequation descriptive</span></div>
+    <div><span class="k">PPP</span><span class="v">0.508</span>
+      <span class="d">ajustement acceptable</span></div>
+    <div><span class="k">phi</span><span class="v">0.87</span>
+      <span class="d">surdispersion (D / ddl)</span></div>
+    <div><span class="k">ambiguite w</span><span class="v">8.8</span>
+      <span class="d">largeur due au choix des poids, en points QI</span></div>
+  </div>
+
+  <h3>Courbe du posterieur de theta_g</h3>
+  <svg class="graphe" viewBox="0 0 720 240" role="img" aria-label="courbe du posterieur de theta_g">
+<line class="grille" x1="44.0" y1="16" x2="44.0" y2="206"/>
+<text class="axe" x="44.0" y="224" text-anchor="middle">-4</text>
+<line class="grille" x1="126.5" y1="16" x2="126.5" y2="206"/>
+<text class="axe" x="126.5" y="224" text-anchor="middle">-3</text>
+<line class="grille" x1="209.0" y1="16" x2="209.0" y2="206"/>
+<text class="axe" x="209.0" y="224" text-anchor="middle">-2</text>
+<line class="grille" x1="291.5" y1="16" x2="291.5" y2="206"/>
+<text class="axe" x="291.5" y="224" text-anchor="middle">-1</text>
+<line class="grille" x1="374.0" y1="16" x2="374.0" y2="206"/>
+<text class="axe" x="374.0" y="224" text-anchor="middle">0</text>
+<line class="grille" x1="456.5" y1="16" x2="456.5" y2="206"/>
+<text class="axe" x="456.5" y="224" text-anchor="middle">1</text>
+<line class="grille" x1="539.0" y1="16" x2="539.0" y2="206"/>
+<text class="axe" x="539.0" y="224" text-anchor="middle">2</text>
+<line class="grille" x1="621.5" y1="16" x2="621.5" y2="206"/>
+<text class="axe" x="621.5" y="224" text-anchor="middle">3</text>
+<line class="grille" x1="704.0" y1="16" x2="704.0" y2="206"/>
+<text class="axe" x="704.0" y="224" text-anchor="middle">4</text>
+<polygon class="hdi" points="357.5,206.0 357.5,155.6 361.6,145.2 365.8,133.6 369.9,121.0 374.0,107.7 378.1,93.9 382.2,80.1 386.4,66.6 390.5,53.8 394.6,42.2 398.8,32.3 402.9,24.5 407.0,19.0 411.1,16.1 415.2,16.0 419.4,18.6 423.5,23.8 427.6,31.4 431.8,41.1 435.9,52.5 440.0,65.1 444.1,78.6 448.3,92.5 452.4,106.2 456.5,119.6 460.6,132.3 464.8,144.0 468.9,154.6 468.9,206.0"/>
+<polyline class="courbe" points="44.0,206.0 48.1,206.0 52.3,206.0 56.4,206.0 60.5,206.0 64.6,206.0 68.7,206.0 72.9,206.0 77.0,206.0 81.1,206.0 85.2,206.0 89.4,206.0 93.5,206.0 97.6,206.0 101.8,206.0 105.9,206.0 110.0,206.0 114.1,206.0 118.2,206.0 122.4,206.0 126.5,206.0 130.6,206.0 134.8,206.0 138.9,206.0 143.0,206.0 147.1,206.0 151.2,206.0 155.4,206.0 159.5,206.0 163.6,206.0 167.8,206.0 171.9,206.0 176.0,206.0 180.1,206.0 184.3,206.0 188.4,206.0 192.5,206.0 196.6,206.0 200.8,206.0 204.9,206.0 209.0,206.0 213.1,206.0 217.2,206.0 221.4,206.0 225.5,206.0 229.6,206.0 233.8,206.0 237.9,206.0 242.0,206.0 246.1,206.0 250.2,206.0 254.4,206.0 258.5,206.0 262.6,206.0 266.8,206.0 270.9,206.0 275.0,205.9 279.1,205.9 283.2,205.9 287.4,205.8 291.5,205.7 295.6,205.5 299.8,205.2 303.9,204.8 308.0,204.3 312.1,203.6 316.2,202.6 320.4,201.2 324.5,199.4 328.6,197.1 332.8,194.0 336.9,190.2 341.0,185.5 345.1,179.8 349.2,173.0 353.4,164.9 357.5,155.6 361.6,145.2 365.8,133.6 369.9,121.0 374.0,107.7 378.1,93.9 382.2,80.1 386.4,66.6 390.5,53.8 394.6,42.2 398.8,32.3 402.9,24.5 407.0,19.0 411.1,16.1 415.2,16.0 419.4,18.6 423.5,23.8 427.6,31.4 431.8,41.1 435.9,52.5 440.0,65.1 444.1,78.6 448.3,92.5 452.4,106.2 456.5,119.6 460.6,132.3 464.8,144.0 468.9,154.6 473.0,164.0 477.1,172.2 481.2,179.1 485.4,185.0 489.5,189.8 493.6,193.7 497.8,196.8 501.9,199.2 506.0,201.0 510.1,202.4 514.2,203.5 518.4,204.2 522.5,204.8 526.6,205.2 530.8,205.5 534.9,205.6 539.0,205.8 543.1,205.9 547.2,205.9 551.4,205.9 555.5,206.0 559.6,206.0 563.8,206.0 567.9,206.0 572.0,206.0 576.1,206.0 580.2,206.0 584.4,206.0 588.5,206.0 592.6,206.0 596.8,206.0 600.9,206.0 605.0,206.0 609.1,206.0 613.2,206.0 617.4,206.0 621.5,206.0 625.6,206.0 629.8,206.0 633.9,206.0 638.0,206.0 642.1,206.0 646.2,206.0 650.4,206.0 654.5,206.0 658.6,206.0 662.8,206.0 666.9,206.0 671.0,206.0 675.1,206.0 679.2,206.0 683.4,206.0 687.5,206.0 691.6,206.0 695.8,206.0 699.9,206.0 704.0,206.0"/>
+<line class="moy" x1="413.4" y1="16" x2="413.4" y2="206"/>
+<text class="axe" x="360.0" y="236" text-anchor="middle">theta_g — zone ombree : intervalle de plus haute densite a 90 %</text>
+</svg>
+  <p class="aide">Posterieur rapporte : loi normale, corrige de la surdispersion
+  (phi = 0.87). Posterieur Student-t(4) a titre de robustesse :
+  ecart-type 0.391 contre
+  0.416 pour le posterieur nominal non corrige.</p>
+
+  <h3>Decomposition de l'incertitude</h3>
+  <svg class="graphe" viewBox="0 0 720 150" role="img" aria-label="part de variance par composante">
+<text class="etiq" x="80" y="29.0" text-anchor="end">mesure</text>
+<rect class="barre" x="90" y="18.0" width="306.5" height="14.0" rx="3"/>
+<text class="val" x="402.5" y="29.0">54 %</text>
+<text class="etiq" x="80" y="51.0" text-anchor="end">etat</text>
+<rect class="barre" x="90" y="40.0" width="57.0" height="14.0" rx="3"/>
+<text class="val" x="153.0" y="51.0">10 %</text>
+<text class="etiq" x="80" y="73.0" text-anchor="end">norme</text>
+<text class="absent" x="94" y="73.0">non quantifiable — sigma_total est une borne inferieure</text>
+<text class="etiq" x="80" y="95.0" text-anchor="end">age</text>
+<text class="absent" x="94" y="95.0">non quantifiable — sigma_total est une borne inferieure</text>
+<text class="etiq" x="80" y="117.0" text-anchor="end">clone</text>
+<rect class="barre" x="90" y="106.0" width="206.5" height="14.0" rx="3"/>
+<text class="val" x="302.5" y="117.0">36 %</text>
+</svg>
+  <table><thead><tr><th>composante</th><th>sigma (QI)</th><th>part de variance</th>
+    <th>origine</th></tr></thead><tbody><tr><td>mesure</td><td class="num">6.23</td><td class="num">54 %</td><td class="petit">ecart-type du posterieur de theta_g x 15, posterieur nominal non corrige</td></tr><tr><td>etat</td><td class="num">2.69</td><td class="num">10 %</td><td class="petit">estime SUR CE SUJET a partir de C3, C4 (v = d^2/2, facteur d&#x27;etat commun)</td></tr><tr><td>norme</td><td class="num">—</td><td class="num">—</td><td class="petit">ni delta de post-stratification ni cellule normative telechargee : composante non quantifiable</td></tr><tr><td>age</td><td class="num">—</td><td class="num">—</td><td class="petit">ecart d&#x27;age au centre de la bande non propageable : aucune pente age-score estimee sur donnees telechargees</td></tr><tr><td>clone</td><td class="num">5.12</td><td class="num">36 %</td><td class="petit">7 sub-test(s) ITEMS_CLONES ; terme systematique +/-0.25 SD (suppose correle), terme aleatoire 1 - r^2 avec r = 0.8 (parametre de configuration)</td></tr></tbody></table>
+  <p><strong>sigma_total = 8.50</strong> points d'echelle QI.</p>
+  <p class="alerte">sigma_total est une <strong>borne inferieure</strong> : les composantes norme, age n'ont pas pu etre quantifiees depuis une source telechargee. L'incertitude reelle est plus grande que celle affichee.</p>
+  
+  <h3>Sensibilite a r_clone (0,70 – 0,90)</h3>
+  <p class="reponse">OUI — la conclusion du rapport change sur la plage r_clone = 0.7 a 0.9 (champs affectes : intervalle_externe_arrondi, intervalle_interne_arrondi).</p>
+  <table><thead><tr><th>r_clone</th><th>sigma_clone (QI)</th>
+    <th>sigma_total (QI)</th><th>intervalle interne</th></tr></thead>
+    <tbody><tr><td class="num">0.70</td><td class="num">5.59</td><td class="num">8.79</td><td class="num">96.6 – 125.5</td></tr><tr><td class="num">0.75</td><td class="num">5.37</td><td class="num">8.65</td><td class="num">96.8 – 125.3</td></tr><tr><td class="num">0.80</td><td class="num">5.12</td><td class="num">8.50</td><td class="num">97.1 – 125.0</td></tr><tr><td class="num">0.85</td><td class="num">4.84</td><td class="num">8.34</td><td class="num">97.3 – 124.8</td></tr><tr><td class="num">0.90</td><td class="num">4.52</td><td class="num">8.16</td><td class="num">97.6 – 124.5</td></tr></tbody></table>
+  <p class="aide">r_clone n&#x27;est mesure par aucune donnee de ce projet. Cette analyse dit ce que l&#x27;ignorance sur r_clone coute, elle ne la leve pas.</p>
+</section>
+<section id="residus">
+  <h2>5. Relations entre dimensions</h2>
+  <p class="chapo">Cette section est la partie informative du profil. Le residu d&#x27;un sub-test est l&#x27;ecart entre ce que le sujet y a fait et ce que son propre niveau general laissait attendre — pas l&#x27;ecart a la moyenne de la population. Un residu proche de zero signifie « conforme a lui-meme », pas « moyen ».</p>
+  <svg class="graphe" viewBox="0 0 720 296" role="img" aria-label="profil avec intervalles a 90 %">
+<line class="grille" x1="190.0" y1="18" x2="190.0" y2="266"/>
+<text class="axe" x="190.0" y="282" text-anchor="middle">-2</text>
+<line class="grille" x1="316.0" y1="18" x2="316.0" y2="266"/>
+<text class="axe" x="316.0" y="282" text-anchor="middle">-1</text>
+<line class="grille" x1="442.0" y1="18" x2="442.0" y2="266"/>
+<text class="axe" x="442.0" y="282" text-anchor="middle">0</text>
+<line class="grille" x1="568.0" y1="18" x2="568.0" y2="266"/>
+<text class="axe" x="568.0" y="282" text-anchor="middle">1</text>
+<line class="grille" x1="694.0" y1="18" x2="694.0" y2="266"/>
+<text class="axe" x="694.0" y="282" text-anchor="middle">2</text>
+<line class="zero" x1="442.0" y1="18" x2="442.0" y2="266"/>
+<text class="etiq" x="178" y="45.0" text-anchor="end">C4</text>
+<line class="ic" x1="432.4" y1="41.0" x2="752.0" y2="41.0"/>
+<line class="ic" x1="432.4" y1="35.0" x2="432.4" y2="47.0"/>
+<line class="ic" x1="752.0" y1="35.0" x2="752.0" y2="47.0"/>
+<circle class="pt" cx="592.2" cy="41.0" r="5"/>
+<text class="etiq" x="178" y="79.0" text-anchor="end">C3</text>
+<line class="ic" x1="330.5" y1="75.0" x2="656.2" y2="75.0"/>
+<line class="ic" x1="330.5" y1="69.0" x2="330.5" y2="81.0"/>
+<line class="ic" x1="656.2" y1="69.0" x2="656.2" y2="81.0"/>
+<circle class="pt" cx="493.3" cy="75.0" r="5"/>
+<text class="etiq" x="178" y="113.0" text-anchor="end">C6</text>
+<line class="ic" x1="303.4" y1="109.0" x2="644.1" y2="109.0"/>
+<line class="ic" x1="303.4" y1="103.0" x2="303.4" y2="115.0"/>
+<line class="ic" x1="644.1" y1="103.0" x2="644.1" y2="115.0"/>
+<circle class="pt" cx="473.8" cy="109.0" r="5"/>
+<text class="etiq" x="178" y="147.0" text-anchor="end">C5</text>
+<line class="ic" x1="314.8" y1="143.0" x2="621.4" y2="143.0"/>
+<line class="ic" x1="314.8" y1="137.0" x2="314.8" y2="149.0"/>
+<line class="ic" x1="621.4" y1="137.0" x2="621.4" y2="149.0"/>
+<circle class="pt" cx="468.1" cy="143.0" r="5"/>
+<text class="etiq" x="178" y="181.0" text-anchor="end">C7</text>
+<line class="ic" x1="291.0" y1="177.0" x2="628.4" y2="177.0"/>
+<line class="ic" x1="291.0" y1="171.0" x2="291.0" y2="183.0"/>
+<line class="ic" x1="628.4" y1="171.0" x2="628.4" y2="183.0"/>
+<circle class="pt" cx="459.7" cy="177.0" r="5"/>
+<text class="etiq" x="178" y="215.0" text-anchor="end">C1</text>
+<line class="ic" x1="154.0" y1="211.0" x2="543.2" y2="211.0"/>
+<line class="ic" x1="154.0" y1="205.0" x2="154.0" y2="217.0"/>
+<line class="ic" x1="543.2" y1="205.0" x2="543.2" y2="217.0"/>
+<circle class="pt" cx="348.6" cy="211.0" r="5"/>
+<text class="etiq" x="178" y="249.0" text-anchor="end">C2</text>
+<line class="ic" x1="151.2" y1="245.0" x2="511.1" y2="245.0"/>
+<line class="ic" x1="151.2" y1="239.0" x2="151.2" y2="251.0"/>
+<line class="ic" x1="511.1" y1="239.0" x2="511.1" y2="251.0"/>
+<circle class="pt" cx="331.1" cy="245.0" r="5"/>
+<text class="axe" x="360.0" y="292" text-anchor="middle">residu (z) — barres : intervalle a 90 %</text>
+</svg>
+  <table><thead><tr><th>code</th><th>z observe</th><th>z attendu vu theta_g</th>
+    <th>residu [IC 90 %]</th></tr></thead><tbody><tr><td class="code">C4</td><td class="num">+1.53</td><td class="num">+0.33</td><td class="num">1.19 [-0.08 ; 2.46] (90%)</td></tr><tr><td class="code">C3</td><td class="num">+0.73</td><td class="num">+0.32</td><td class="num">0.41 [-0.89 ; 1.70] (90%)</td></tr><tr><td class="code">C6</td><td class="num">+0.63</td><td class="num">+0.38</td><td class="num">0.25 [-1.10 ; 1.60] (90%)</td></tr><tr><td class="code">C5</td><td class="num">+0.56</td><td class="num">+0.35</td><td class="num">0.21 [-1.01 ; 1.42] (90%)</td></tr><tr><td class="code">C7</td><td class="num">+0.47</td><td class="num">+0.32</td><td class="num">0.14 [-1.20 ; 1.48] (90%)</td></tr><tr><td class="code">C1</td><td class="num">-0.36</td><td class="num">+0.38</td><td class="num">-0.74 [-2.29 ; 0.80] (90%)</td></tr><tr><td class="code">C2</td><td class="num">-0.54</td><td class="num">+0.34</td><td class="num">-0.88 [-2.31 ; 0.55] (90%)</td></tr></tbody></table>
+</section>
+<section id="canaux">
+  <h2>6. Canal vitesse et canal contamination</h2>
+  <p class="chapo">Le canal vitesse et le canal contamination sont rapportes a part et n&#x27;entrent dans aucun score general. Le canal contamination existe precisement pour mesurer l&#x27;ecart entre une performance qui depend de conventions notationnelles apprises (ordre alphabetique, chiffres arabes, arithmetique, anglais) et une performance qui en depend moins.</p>
+  <h3>Canal vitesse</h3><table><thead><tr><th>code</th><th>sub-test</th><th>temps</th><th>depend d'une convention notationnelle</th><th>etat</th></tr></thead><tbody><tr><td class="code">V1</td><td>Attention visuelle divisee</td><td>chronometre</td><td>non</td><td><span class="absent">pas de reference</span></td></tr><tr><td class="code">V2</td><td>Trail Making A</td><td>chronometre</td><td>oui</td><td><span class="absent">pas de reference</span></td></tr><tr><td class="code">V3</td><td>Code symboles-chiffres</td><td>chronometre</td><td>oui</td><td><span class="absent">pas de reference</span></td></tr></tbody></table>
+  <h3>Canal contamination</h3><table><thead><tr><th>code</th><th>sub-test</th><th>temps</th><th>depend d'une convention notationnelle</th><th>etat</th></tr></thead><tbody><tr><td class="code">K1</td><td>Series de lettres et de nombres</td><td>sans limite</td><td>oui</td><td><span class="absent">pas de reference</span></td></tr><tr><td class="code">K2</td><td>Raisonnement verbal-numerique chronometre</td><td>chronometre</td><td>oui</td><td><span class="absent">pas de reference</span></td></tr></tbody></table>
+  <div class="encadre">
+    <h4>Contraste chronometre / non chronometre</h4>
+    <p>Le noyau est administre sans limite de temps pour les epreuves de
+    raisonnement (C1, C2, C6). Le canal vitesse est integralement chronometre.
+    L'ecart entre les deux est la quantite interessante ; il n'est calculable que
+    si les deux canaux disposent d'une reference. Ce n'est pas le cas ici tant que
+    les fichiers normatifs ne sont pas telecharges.</p>
+  </div>
+</section>
+<section id="predictions">
+  <h2>7. Ce que ces scores predisent</h2>
+  <div class="encadre alerte-bloc">
+    <p>Aucun coefficient de validite publie n&#x27;a pu etre telecharge et cite dans cette execution. Cette section reste donc vide : le rapport ne propose aucune prediction de reussite scolaire, professionnelle, de revenu ou de sante. Enoncer une prediction sans son coefficient source et sans son intervalle residuel serait exactement ce que ce dispositif est cense empecher.</p>
+  </div>
+  <p class="aide">Rappel de lecture pour toute prediction : avec une correlation r = 0,50 entre le score et un critere, connaitre le score laisse encore un ecart-type residuel de sqrt(1 - 0,50^2) = 0,87 ecart-type sur ce critere. La variance expliquee est de 25 %, ce qui veut dire que 75 % de la variation du critere reste ailleurs.</p>
+</section>
+<section id="provenance">
+  <h2>8. Annexe provenance</h2>
+  <div class="encadre alerte-bloc">
+    <p>Aucune valeur normative n'a ete employee dans ce rapport. L'annexe est
+    donc vide, et c'est coherent : aucun score normatif n'y figure. Une annexe
+    vide accompagnee de scores serait le signe d'une violation de la regle de
+    provenance (R1).</p>
+  </div>
+</section>
+<section id="reproductibilite">
+  <h2>9. Annexe reproductibilite</h2>
+  <table><tbody><tr><td>genere_le</td><td class="petit mono">2026-08-31T14:08:07+00:00</td></tr><tr><td>mode</td><td class="petit mono">DEMONSTRATION SIMULEE</td></tr><tr><td>graine_maitresse</td><td class="petit mono">20240117</td></tr><tr><td>r_clone</td><td class="petit mono">0.8</td></tr><tr><td>python</td><td class="petit mono">3.11.15</td></tr><tr><td>plateforme</td><td class="petit mono">Linux-6.18.44-fc-v22-x86_64-with-glibc2.39</td></tr><tr><td>numpy</td><td class="petit mono">2.4.6</td></tr><tr><td>scipy</td><td class="petit mono">1.17.1</td></tr><tr><td>pandas</td><td class="petit mono">3.0.5</td></tr><tr><td>girth</td><td class="petit mono">installe</td></tr><tr><td>semopy</td><td class="petit mono">2.3.11</td></tr><tr><td>verification_normes</td><td class="petit mono">2026-08-31T09:51:40+00:00</td></tr><tr><td>passation_autorisee</td><td class="petit mono">False</td></tr><tr><td>base_sqlite</td><td class="petit mono">data/derived/crib1.sqlite</td></tr></tbody></table>
+</section>
+<footer>CRIB-1 — Culture-Reduced Inference Battery, version 1.
+Rapport genere localement. Aucun modele de langage n'intervient dans la
+passation ni dans le scoring (R2).</footer>
+</main></body></html>

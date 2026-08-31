@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+data/derived/*.sqlite
+data/derived/*.sqlite-wal
+data/derived/*.sqlite-shm
+# data/raw/ contient les fichiers telecharges : jamais modifies, jamais versionnes
+data/raw/*
+!data/raw/.gitkeep
+!data/raw/MANIFEST.json
